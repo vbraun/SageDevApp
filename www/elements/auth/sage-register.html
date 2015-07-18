@@ -1,0 +1,53 @@
+
+
+<dom-module id="sage-register">
+    <style>
+        :host {
+            display: block;
+        }
+
+        div {
+            padding-top: 2em;
+        }
+    </style>
+    <template>
+        <paper-input-container>
+            <label>Email</label>
+            <input required type="email" is="iron-input" value="{{email::input}}">
+        </paper-input-container>
+
+        <paper-input-container>
+            <label>Password</label>
+            <input required type="password" is="iron-input" value="{{password::input}}">
+        </paper-input-container>
+
+        <div class="vertical layout end">
+            <paper-fab
+                 icon="add"
+                 title="submit"
+                 on-click="buttonSubmit"></paper-fab>
+        </div>
+   </template>
+    
+    <script>
+        (function() {
+            Polymer({
+                is: 'sage-register',
+                properties: {
+                    email: {
+                        type: String,
+                        notify: true
+                    },
+                    password: {
+                        type: String,
+                        notify: true
+                    }
+                },
+                buttonSubmit: function(event) {
+                    console.log('submit', this.email, this.password);
+                }
+            });
+        })();
+  </script>
+    
+</dom-module>

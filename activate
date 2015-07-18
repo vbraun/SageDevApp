@@ -1,0 +1,6 @@
+
+
+# Source this file to set up paths
+
+source local/bin/activate
+export PATH=$(pwd)/node_modules/.bin:$PATH
