@@ -13,6 +13,8 @@ var fs = require('fs');
 var glob = require('glob');
 var historyApiFallback = require('connect-history-api-fallback');
 var process = require('child_process');
+var modRewrite = require('connect-modrewrite')
+
 
 var AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
@@ -198,13 +200,14 @@ gulp.task('serve', ['styles', 'elements', 'images', 'backend'], function () {
                 }
             }
         },
-        // Run as an https by uncommenting 'https: true'
-        // Note: this uses an unsigned certificate which on first access
-        //       will present a certificate warning in the browser.
-        // https: true,
         server: {
             baseDir: ['tmp', 'www'],
-            middleware: [ historyApiFallback() ],
+            middleware: [
+                modRewrite([
+                    '^/api/(.*)$ http://localhost:8080/api/$1 [P]',
+                ]),
+                historyApiFallback(),
+            ],
             routes: {
                 '/bower_components': 'bower_components'
             }
@@ -231,12 +234,13 @@ gulp.task('serve:dist', ['default'], function () {
                 }
             }
         },
-        // Run as an https by uncommenting 'https: true'
-        // Note: this uses an unsigned certificate which on first access
-        //       will present a certificate warning in the browser.
-        // https: true,
         server: 'dist',
-        middleware: [ historyApiFallback() ]
+        middleware: [
+            modRewrite([
+                '^/api/(.*)$ http://localhost:8080/api/$1 [P]',
+            ]),
+            historyApiFallback(),
+        ]
     });
 });
 

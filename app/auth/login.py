@@ -10,6 +10,8 @@ class LoginHandler(object):
     @asyncio.coroutine
     def post(self, request):
         print(request)
+        data = yield from request.read()
+        print(data)
         data = yield from request.json()
         email = data['email']
         password = data['password']

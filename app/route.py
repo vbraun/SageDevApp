@@ -12,5 +12,5 @@ def hello(request):
 
 
 application = web.Application()
-application.router.add_route('GET', '/', hello)
-application.router.add_route('POST', '/api/v1/login', login_handler.post)
+application.router.add_route('GET', '/api/hello', hello)
+application.router.add_route('POST', '/api/v1/auth/login', login_handler.post)

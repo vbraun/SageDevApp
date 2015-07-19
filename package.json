@@ -4,6 +4,7 @@
     "bower": "^1.4.1",
     "browser-sync": "^2.7.7",
     "connect-history-api-fallback": "^1.1.0",
+    "connect-modrewrite": "^0.8.1",
     "del": "^1.1.1",
     "glob": "^5.0.6",
     "gulp": "^3.8.5",
