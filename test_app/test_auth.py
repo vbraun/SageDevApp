@@ -10,6 +10,7 @@ import aiohttp
 from app.auth.token import jwt_decode
 
 
+
 class TestAuthentication(unittest.TestCase):
 
     def setUp(self):
@@ -21,12 +22,13 @@ class TestAuthentication(unittest.TestCase):
         self.session.close()
         self.loop.close()
 
-    def test_root(self):
+    def test_hello(self):
         def go():
-            resp = yield from self.session.get('http://localhost:8080')
+            resp = yield from self.session.get('http://localhost:8080/api/v1/hello')
             self.assertEqual(resp.status, 200)
             data = yield from resp.read()
             self.assertEqual(data, b'Hello, world')
+            resp.close()
         self.loop.run_until_complete(go())
 
     def test_login(self):
@@ -35,7 +37,7 @@ class TestAuthentication(unittest.TestCase):
                 email='vbraun.name@gmail.com',
                 password='s3kr1t'
             ))
-            resp = yield from self.session.post('http://localhost:8080/api/v1/login', data=logindata)
+            resp = yield from self.session.post('http://localhost:8080/api/v1/auth/login', data=logindata)
             self.assertEqual(resp.status, 200)
             data = yield from resp.read()
             self.assertTrue(data.startswith(b'{'))
@@ -45,5 +47,6 @@ class TestAuthentication(unittest.TestCase):
             jwt = jwt_decode(data['jwt'])
             self.assertEqual(jwt['iss'], 'http://www.sagemath.org')
             self.assertEqual(jwt['sub'], 'vbraun.name@gmail.com')
+            resp.close()
         self.loop.run_until_complete(go())
         

@@ -37,36 +37,47 @@
 
     <body unresolved class="fullbleed layout vertical">
         <span id="browser-sync-binding"></span>
+
+
         <template is="dom-bind" id="app">
             <paper-drawer-panel id="paperDrawerPanel">
                 <paper-scroll-header-panel drawer fixed>
                     <paper-toolbar id="drawerToolbar">
                         <span class="paper-font-title">Menu</span>
                     </paper-toolbar>
+
+                    <sage-auth-status
+                         is-logged-in="{{isLoggedIn}}"
+                         is-logged-out="{{isLoggedOut}}">
+                    </sage-auth-status>
+
                     <paper-menu
                          class="list"
                          attr-for-selected="data-route"
                          selected="{{route}}"
                          on-iron-select="onMenuSelect">
 
-                        <a data-route="login" href="/login">
+                        <a data-route="login" href="/login"
+                           hidden="{{isLoggedIn}}">
                             <iron-icon icon="account-circle"></iron-icon>
                             <span>Register/Login</span>
                         </a>
-
-                        <a data-route="logout" href="/logout">
+                        
+                        <a data-route="logout" href="/logout"
+                           hidden="{{isLoggedOut}}">
                             <iron-icon icon="power-settings-new"></iron-icon>
                             <span>Logout</span>
                         </a>
-
-                        <a data-route="upload" href="/upload">
-                            <iron-icon icon="file-upload"></iron-icon>
-                            <span>Tarball upload</span>
-                        </a>
-
+                        
                         <a data-route="home" href="/">
                             <iron-icon icon="home"></iron-icon>
                             <span>Home</span>
+                        </a>
+
+                        <a data-route="upload" href="/upload"
+                           disabled$="{{isLoggedOut}}">
+                            <iron-icon icon="file-upload"></iron-icon>
+                            <span>Tarball upload</span>
                         </a>
 
                         <a data-route="users" href="/users">

@@ -13,8 +13,8 @@ var fs = require('fs');
 var glob = require('glob');
 var historyApiFallback = require('connect-history-api-fallback');
 var process = require('child_process');
-var modRewrite = require('connect-modrewrite')
-
+var modRewrite = require('connect-modrewrite');
+var shell = require('gulp-shell');
 
 var AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
@@ -255,9 +255,26 @@ gulp.task('default', ['clean'], function (cb) {
     // Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker
 });
 
+// Test Python code only
+gulp.task('python:test', shell.task([
+    'TZ=EST+5 python -m unittest discover',
+]));
+
+// Run testsuite
+gulp.task('test', ['python:test']);
+
+gulp.task('test:watch', [], function() {
+    gulp.watch([
+        'app/**/*.py',
+        'test_app/**/*.py',
+        'www/**/*.{html,js,css}',
+    ], ['test']);
+});
+
+
 // Load tasks for web-component-tester
 // Adds tasks for `gulp test:local` and `gulp test:remote`
-require('web-component-tester').gulp.init(gulp);
+// require('web-component-tester').gulp.init(gulp);
 
 // Load custom tasks from the `tasks` directory
 try { require('require-dir')('tasks'); } catch (err) {}

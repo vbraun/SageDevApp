@@ -1,3 +1,6 @@
+import logging
+log = logging.getLogger()
+
 import json
 import asyncio
 from aiohttp import web
@@ -9,9 +12,8 @@ class LoginHandler(object):
 
     @asyncio.coroutine
     def post(self, request):
-        print(request)
         data = yield from request.read()
-        print(data)
+        log.debug('{0}: {1}'.format(request, data))
         data = yield from request.json()
         email = data['email']
         password = data['password']

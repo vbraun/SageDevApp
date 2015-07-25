@@ -7,8 +7,7 @@
     });
 
     page('/logout', function () {
-      console.log('deleting JWT');
-      window.localStorage.removeItem('jwt');
+      app.fire('iron-signal', {name:'sage-auth-changed', data:false});
       app.route = 'logout';
     });
 

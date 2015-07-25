@@ -1,0 +1,42 @@
+<dom-module id="sage-auth-status">
+    <template>
+        <iron-signals on-iron-signal-sage-auth-changed="signalUpdate">
+        <!-- <div>Logged in: <span>{{isLoggedIn}}</span></div> -->
+        <!-- <div>Logged out: <span>{{isLoggedOut}}</span></div> -->
+   </template>
+    
+    <script>
+        (function() {
+            Polymer({
+                is: 'sage-auth-status',
+                properties: {
+                    isLoggedIn: {
+                        type: Boolean,
+                        notify: true
+                    },
+                    isLoggedOut: {
+                        type: Boolean,
+                        notify: true
+                    },
+                },
+                ready: function() {
+                    jwt = window.localStorage.getItem('jwt');
+                    this.isLoggedIn = (jwt !== null);
+                    this.isLoggedOut = (jwt === null);
+                },
+                click: function() {
+                    console.log('click');
+                },
+                signalUpdate: function(event, loginStatus) {
+                    if (!loginStatus) {
+                        console.log('deleting JWT');
+                        window.localStorage.removeItem('jwt');
+                    }
+                    this.isLoggedIn = loginStatus;
+                    this.isLoggedOut = !loginStatus;
+                }
+            });
+        })();
+  </script>
+    
+</dom-module>
