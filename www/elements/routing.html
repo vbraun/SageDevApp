@@ -11,6 +11,12 @@
       app.route = 'logout';
     });
 
+    page('/validate-email/:secret', function (data) {
+      app.route = 'validate-email';
+      app.params = data.params;
+    });
+
+
     page('/upload', function () {
       app.route = 'upload';
     });
@@ -34,7 +40,7 @@
 
     // add #! before urls
     page({
-      hashbang: false
+      hashbang: true
     });
 
   });

@@ -16,6 +16,8 @@ Quickstart
 
        $ gulp serve
 
+4. Login with email=nick@ens.fr and password=57 (only on the dev server)
+
 
 File layout
 -----------

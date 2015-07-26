@@ -159,12 +159,13 @@
                                 <paper-material elevation="1">
                                     <h2 class="paper-font-display2">Register</h2>
                                     <p>
-                                        Registration is open to
-                                        everyone who has previously
-                                        made a commit to the Sage git
-                                        repository. The email address
-                                        must be the one that was used
-                                        to make the commit.
+                                        Registration of an account is
+                                        open to everyone who has
+                                        previously made a commit to
+                                        the Sage git repository. The
+                                        email address must be the one
+                                        that was used to make the
+                                        commit.
                                     </p>
                                     <sage-register></sage-register>
                                 </paper-material>
@@ -174,6 +175,17 @@
                                 <paper-material elevation="1">
                                     <h2 class="paper-font-display2">Good Bye!</h2>
                                     <sage-logout></sage-logout>
+                                </paper-material>
+                            </section>
+
+                            <section data-route="validate-email">
+                                <paper-material elevation="1">
+                                    <h2 class="paper-font-display2">Email Validation</h2>
+                                    <sage-validate-email secret="{{params.secret}}"></sage-validate-email>
+                                </paper-material>
+                                <paper-material elevation="1">
+                                    <h2 class="paper-font-display2">Login</h2>
+                                    <sage-login></sage-login>
                                 </paper-material>
                             </section>
 

@@ -11,6 +11,23 @@
         }
     </style>
     <template>
+        <iron-ajax
+             id="registerAjax"
+             contentType="application/json"
+             method="POST"
+             verbose="true"
+             url="/api/v1/auth/register"
+             body="{{ajaxParams}}"
+             handle-as="json"
+             on-response="ajaxResponseHandler"
+             on-error="ajaxErrorHandler">
+        </iron-ajax>
+
+        <paper-input-container>
+            <label>Name</label>
+            <input required type="text" is="iron-input" value="{{name::input}}">
+        </paper-input-container>
+
         <paper-input-container>
             <label>Email</label>
             <input required type="email" is="iron-input" value="{{email::input}}">
@@ -23,10 +40,28 @@
 
         <div class="vertical layout end">
             <paper-fab
+                 disabled$="{{isSuccess}}"
                  icon="add"
                  title="submit"
                  on-click="buttonSubmit"></paper-fab>
         </div>
+
+        <template is="dom-if" if="{{isSuccess}}">
+            <div>
+                Registration successfull! A verification email has
+                been sent to "<span>{{name}}</span>"
+                &lt;<span>{{email}}</span>&gt;. You can only
+                log in after you have successfully verified
+                your email address.
+            </div>
+        </template>
+
+        <template is="dom-if" if="{{isError}}">
+            <div>
+                Error: <span>{{errorMessage}}</span>
+            </div>
+        </template>
+        
    </template>
     
     <script>
@@ -34,6 +69,10 @@
             Polymer({
                 is: 'sage-register',
                 properties: {
+                    name: {
+                        type: String,
+                        notify: true
+                    },
                     email: {
                         type: String,
                         notify: true
@@ -41,10 +80,47 @@
                     password: {
                         type: String,
                         notify: true
-                    }
+                    },
+                    ajaxParams: {
+                        type: String,
+                        computed: 'makeAjaxBody(name, email, password)'
+                    },
+                    isSuccess: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    isError: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    errorMessage: {
+                        type: String,
+                        notify: false
+                    },
                 },
                 buttonSubmit: function(event) {
-                    console.log('submit', this.email, this.password);
+                    console.log('submit', this.name, this.email, this.password);
+                    this.$.registerAjax.generateRequest();
+                },
+                makeAjaxBody: function(name, email, password) {
+                    return JSON.stringify({'name': name, 'email': email, 'password':password});
+                },
+                ajaxResponseHandler: function(event, response) {
+                    var reply = response.xhr.response;
+                    if (!reply.success)
+                        throw new Error('success must be true in response handler');
+                    this.isSuccess = reply.success;
+                    this.isError = !reply.success;
+                },
+                ajaxErrorHandler: function(event, response) {
+                    var reply = response.request.parseResponse();
+                    if (reply.success)
+                        throw new Error('success must be false in error handler');
+                    this.isSuccess = reply.success;
+                    this.isError = !reply.success;
+                    this.errorMessage = reply.reason;
                 }
             });
         })();

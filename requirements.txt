@@ -7,3 +7,4 @@ peewee
 
 pyjwt
 aiohttp
+werkzeug

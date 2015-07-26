@@ -20,12 +20,9 @@
                     },
                 },
                 ready: function() {
-                    jwt = window.localStorage.getItem('jwt');
+                    var jwt = window.localStorage.getItem('jwt');
                     this.isLoggedIn = (jwt !== null);
                     this.isLoggedOut = (jwt === null);
-                },
-                click: function() {
-                    console.log('click');
                 },
                 signalUpdate: function(event, loginStatus) {
                     if (!loginStatus) {

@@ -1,0 +1,103 @@
+<dom-module id="sage-validate-email">
+    <template>
+        <iron-ajax
+             id="validateEmailAjax"
+             contentType="application/json"
+             method="POST"
+             verbose="true"
+             url="/api/v1/auth/validate"
+             body="{{makeAjaxBody(secret)}}"
+             handle-as="json"
+             on-response="ajaxResponseHandler"
+             on-error="ajaxErrorHandler">
+        </iron-ajax>
+
+        <template is="dom-if" if="{{isWaiting}}">
+            <div>
+                <paper-spinner alt="Verifying email address" active></paper-spinner>
+            </div>
+        </template>
+
+        <template is="dom-if" if="{{isError}}">
+            <div>
+                Error: <span>{{errorMessage}}</span>
+            </div>
+        </template>
+        
+        <template is="dom-if" if="{{isSuccess}}">
+            <div>
+                Welcome back, <span>{{name}}</span>. Your account is
+                now ready.
+            </div>
+        </template>
+        
+   </template>
+    
+    <script>
+        (function() {
+            Polymer({
+                is: 'sage-validate-email',
+                properties: {
+                    name: {
+                        type: String,
+                        notify: true
+                    },
+                    email: {
+                        type: String,
+                        notify: true
+                    },
+                    secret: {
+                        type: String,
+                        notify: true
+                    },
+                    isSuccess: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    isError: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    isWaiting: {
+                        type: Boolean,
+                        computed: '_isWaiting(isSuccess, isError)'
+                    },
+                    errorMessage: {
+                        type: String,
+                        notify: false
+                    },
+                },
+                _isWaiting: function(isSuccess, isError) {
+                    return !(isSuccess || isError);
+                },
+                attached: function() {
+                    var that = this;
+                    window.addEventListener('WebComponentsReady', function() {
+                        if (!that.secret) return;
+                        var ajax = that.$.validateEmailAjax;
+                        ajax.generateRequest();
+                    });
+                },
+                makeAjaxBody: function(secret) {
+                    return JSON.stringify({'secret':secret});
+                },
+                ajaxResponseHandler: function(event, response) {
+                    var reply = response.xhr.response;
+                    this.isSuccess = reply.success;
+                    this.isError = !reply.success;
+                    this.name = reply.name;
+                    this.email = reply.email;
+                },
+                ajaxErrorHandler: function(event, response) {
+                    var reply = response.request.parseResponse();
+                    this.isSuccess = reply.success;
+                    this.isError = !reply.success;
+                    this.errorMessage = reply.reason;
+                }
+            });
+        })();
+  </script>
+    
+</dom-module>

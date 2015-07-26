@@ -13,13 +13,11 @@ from app.config import config
 
 ALGORITHM = 'HS256'
 
-ISSUER = 'http://www.sagemath.org'
-
 
 
 def jwt_encode(email):
     payload = dict(
-        iss=ISSUER,
+        iss=config.baseurl,
         iat=datetime.utcnow(),
         sub=email
     )
@@ -35,7 +33,7 @@ def jwt_decode(token):
         token,
         config.cookie_secret_key,
         algorithms=[ALGORITHM],
-        issuer=ISSUER,
+        issuer=config.baseurl,
     )
-    assert result['iss'] == ISSUER
+    assert result['iss'] == config.baseurl
     return result
