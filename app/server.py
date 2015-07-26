@@ -13,7 +13,6 @@ from app.database import database, all_database_models
 
 def main_loop():
     loop = asyncio.get_event_loop()
-    loop.set_debug(enabled=config.debug)
     handler = application.make_handler()
     f = loop.create_server(handler, 'localhost', 8080)
     srv = loop.run_until_complete(f)
@@ -21,6 +20,7 @@ def main_loop():
     database.create_tables(all_database_models())
     print('serving on', srv.sockets[0].getsockname())
     if config.debug:
+        loop.set_debug(enabled=True)
         import app.debug.setup
     try:
         loop.run_forever()

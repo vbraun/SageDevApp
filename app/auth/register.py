@@ -9,19 +9,8 @@ from aiohttp import web
 from app.config import config
 from app.auth.token import jwt_encode
 from app.auth.user_model import User, EmailExistsException
+from app.auth.validation_email import send_validation_email
 
-
-VALIDATION_EMAIL_TEMPLATE = \
-"""
-To: {user.email}
-
-Dear {user.name},
-
-Please validate the email for your Sage developer account by going to
-the following link:
-
-{config.baseurl}/#!/validate-email/{user.email_validation_secret}
-"""
 
 
 
@@ -60,8 +49,7 @@ class RegistrationHandler(object):
     @asyncio.coroutine
     def send_validation_link(self, user):
         yield from asyncio.sleep(2)
-        body = VALIDATION_EMAIL_TEMPLATE.format(user=user, config=config)
-        print(body)
+        send_validation_email(user)
     
 
 

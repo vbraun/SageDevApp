@@ -1,0 +1,28 @@
+# Defaults for all settings
+#
+# In order to make changes put them into a separate "app.yaml"
+# file. The content of that file override any settings made in this
+# file. Also, "app.yaml" is ignored by git, so its contents are not
+# checked into the repository. So put secrets and passwords there, so
+# they don't get recorded in the repository.
+
+
+debug:
+    False
+
+baseurl:
+    http://fileserver.sagemath.org
+
+database:
+    ":memory:"
+
+cookie_secret_key:
+    b"J$\xfe\xf6jK\xf9\x1b\xccS\xbeL\x932\xf8h\xfdL\x8c'\xde\x83#\xfb\xa4\x85\x95\xa9Tb\xaa\x81"
+
+email:
+    sender_name: Do not reply
+    sender_addr: do_not_reply@sagemath.org
+    username: 
+    password: 
+    smtphost: localhost
+    
