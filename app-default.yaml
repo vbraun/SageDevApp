@@ -18,7 +18,7 @@ database:
     ":memory:"
 
 cookie_secret_key:
-    b"J$\xfe\xf6jK\xf9\x1b\xccS\xbeL\x932\xf8h\xfdL\x8c'\xde\x83#\xfb\xa4\x85\x95\xa9Tb\xaa\x81"
+    b"change me"
 
 email:
     sender_name: Do not reply
