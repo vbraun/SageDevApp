@@ -80,9 +80,9 @@
                             <span>Tarball upload</span>
                         </a>
 
-                        <a data-route="users" href="/users">
+                        <a data-route="packages" href="/pkg">
                             <iron-icon icon="info"></iron-icon>
-                            <span>Users</span>
+                            <span>Packages</span>
                         </a>
 
                         <a data-route="contact" href="/contact">
@@ -100,8 +100,8 @@
                              paper-drawer-toggle></paper-icon-button>
                         <span class="flex"></span>
 
-                        <paper-icon-button icon="refresh"></paper-icon-button>
-                        <paper-icon-button icon="search"></paper-icon-button>
+                        <!-- <paper-icon-button icon="refresh"></paper-icon-button> -->
+                        <!-- <paper-icon-button icon="search"></paper-icon-button> -->
 
                         <div class="middle middle-container center horizontal layout">
                             <div class="app-name">SageMath Developer</div>
@@ -197,23 +197,23 @@
                                         archives to update Sage's
                                         components.
                                     </p>
+                                    <sage-tarball-upload></sage-tarball-upload>
                                 </paper-material>
                             </section>
 
-                            <section data-route="users">
+                            <section data-route="packages">
                                 <paper-material elevation="1">
-                                    <h2 class="paper-font-display2">Users</h2>
-                                    <p>This is the users section</p>
-                                    <a href="/users/Rob">Rob</a>
+                                    <h2 class="paper-font-display2">Packages</h2>
+                                    <sage-list-packages></sage-list-packages>
                                 </paper-material>
                             </section>
 
-                            <section data-route="user-info">
+                            <section data-route="package-info">
                                 <paper-material elevation="1">
                                     <h2 class="paper-font-display2">
-                                        User:<span>{{params.name}}</span>
+                                        Package: <span>{{params.name}}</span>
                                     </h2>
-                                    <div>This is <span>{{params.name}}</span>'s section</div>
+                                    <sage-package name="{{params.name}}"></sage-packages>
                                 </paper-material>
                             </section>
 

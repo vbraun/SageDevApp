@@ -22,9 +22,22 @@ def hello(request):
 
 application = web.Application()
 application.router.add_route('GET', '/api/v1/hello', hello)
+
 application.router.add_route('POST', '/api/v1/auth/login', login_handler.post)
 application.router.add_route('POST', '/api/v1/auth/register', registration_handler.post)
 application.router.add_route('POST', '/api/v1/auth/validate', email_validation_handler.post)
+
+from app.pkg.view import list_packages_handler, view_package_handler
+application.router.add_route('GET', '/api/v1/pkg/list', list_packages_handler)
+application.router.add_route('GET', '/api/v1/pkg/view/{name}', view_package_handler)
+
+from app.pkg.file_upload import FileUploadHandler
+application.router.add_route('POST', '/api/v1/pkg/upload', FileUploadHandler().post)
+
+
+from app.cron.handler import cron_handler
+application.router.add_route('GET', '/cron/daily', cron_handler)
+
 
 if config.debug:
     from app.debug.user import UserDebug

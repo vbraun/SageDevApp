@@ -8,6 +8,7 @@
 .#*
 /local/
 /tmp/
+/data-files/
 
 /bower_components/
 /node_modules/

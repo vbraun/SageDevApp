@@ -2,7 +2,7 @@
 import peewee
 from peewee import (
     SqliteDatabase,
-    CharField, DateTimeField, BooleanField,
+    CharField, DateTimeField, BooleanField, IntegerField,
 )
 from app.config import config
 
@@ -19,4 +19,5 @@ class BaseModel(peewee.Model):
         
 def all_database_models():
     from app.auth.user_model import User
-    return [User]
+    from app.pkg.package_model import Package
+    return [User, Package]

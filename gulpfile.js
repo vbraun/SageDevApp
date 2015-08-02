@@ -205,6 +205,7 @@ gulp.task('serve', ['styles', 'elements', 'images', 'backend'], function () {
             middleware: [
                 modRewrite([
                     '^/api/(.*)$ http://localhost:8080/api/$1 [P]',
+                    '^/cron/(.*)$ http://localhost:8080/cron/$1 [P]',
                     // '^/val(.*)$ http://localhost:8080/#!/$1 [RL]'
                 ]),
                 historyApiFallback(),

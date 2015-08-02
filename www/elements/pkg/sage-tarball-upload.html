@@ -1,0 +1,84 @@
+<dom-module id="sage-tarball-upload">
+    <template>
+        <file-upload
+            droppable="true"
+            multi="false"
+            target="/api/v1/pkg/upload"
+            method="POST"
+            raised="true">Choose File</file-upload>
+
+        <br/>
+        
+        <template is="dom-if" if="{{isSuccess}}">
+            <div>
+                SHA1 = <span>{{sha1}}</span>
+            </div>
+            <div>
+                Your file can be found at the
+                <a href="{{servingUrl}}">download link</a>.
+            </div>
+        </template>
+
+        <template is="dom-if" if="{{isError}}">
+            <div>
+                Error: <span>{{errorMessage}}</span>
+            </div>
+        </template>
+
+    </template>
+    
+    <script>
+    (function() {
+        Polymer({
+            is: 'sage-tarball-upload',
+            listeners: {
+                'success': 'onSuccess',
+                'error': 'onError',
+            },
+            properties: {
+                sha1: {
+                    type: String,
+                    notify: true,
+                },
+                servingUrl: {
+                    type: String,
+                    computed: '_servingUrl(sha1)',
+                },
+                isSuccess: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                isError: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                errorMessage: {
+                    type: String,
+                    notify: false
+                },
+            },
+            _servingUrl: function(sha1) {
+                return '/api/v1/pkg/download/' + sha1
+            },
+            onSuccess: function(event, params) {
+                reply = params.xhr;
+                console.log('success', reply);
+                this.isSuccess = true;
+                this.isError = false;
+                this.sha1 = reply.responseText;
+            },
+            onError: function(event, params) {
+                reply = params.xhr;
+                console.log('error', reply);
+                reply = params.xhr
+                this.isSuccess = false;
+                this.isError = true;
+                this.errorMessage = reply.responseText;
+            },
+        });
+    })();
+    </script>
+    
+</dom-module>

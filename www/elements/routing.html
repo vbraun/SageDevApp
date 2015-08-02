@@ -25,12 +25,12 @@
       app.route = 'home';
     });
 
-    page('/users', function () {
-      app.route = 'users';
+    page('/pkg', function () {
+      app.route = 'packages';
     });
 
-    page('/users/:name', function (data) {
-      app.route = 'user-info';
+    page('/pkg/:name', function (data) {
+      app.route = 'package-info';
       app.params = data.params;
     });
 

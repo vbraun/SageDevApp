@@ -4,6 +4,9 @@ Send Validation Email
 Using multipart/alternative for text + html
 """
 
+import logging
+log = logging.getLogger()
+
 import smtplib
 
 from email.mime.multipart import MIMEMultipart
@@ -62,6 +65,10 @@ def send_validation_email(user):
     
     html = html_template.format(user=user, config=config)
     text = text_template.format(user=user, config=config)
+    
+    if config.debug:
+        log.debug('Skipping sending of authentication email to {0}'.format(recipient))
+        return
     
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')

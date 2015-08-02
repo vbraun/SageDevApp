@@ -13,6 +13,7 @@ debug:
 baseurl:
     http://fileserver.sagemath.org
 
+
 database:
     ":memory:"
 
@@ -25,4 +26,19 @@ email:
     username: 
     password: 
     smtphost: localhost
+
+    
+# Locations of data files that may be served over the web
+data_files:
+
+    # A relative prefix path is wrt. to the repository root
+    prefix: data-files
+
+    tmp: '{data_files.prefix}/tmp'
+    uploads: '{data_files.prefix}/incoming'
+    
+    repo:
+        url: http://github.com/sagemath/sage.git
+        branch: develop
+        path: '{data_files.prefix}/sage.git'
     

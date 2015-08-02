@@ -1,0 +1,111 @@
+<dom-module id="sage-package">
+    <template>
+        <iron-ajax
+            id="viewPkgAjax"
+            contentType="application/json"
+            url="{{ajaxUrl}}"
+            method="GET"
+            verbose="true"
+            handle-as="json"
+            on-response="ajaxResponseHandler"
+            on-error="ajaxErrorHandler">
+        </iron-ajax>
+
+        <div>
+            Version: <span>{{pkg.version}}</span>
+        </div>
+        <div>
+            Patchlevel: <span>{{pkg.patchlevel}}</span>
+        </div>
+        <div>
+            Tarball filename: <span>{{pkg.filename}}</span>
+        </div>
+        <div>
+            Type: <span>{{pkg.pkgtype}}</span>
+        </div>
+        <div>
+            SHA1: <span>{{pkg.sha1}}</span>
+        </div>
+
+        <pre>{{pkg.description}}</pre>
+
+        <div class="horizontal layout justified">
+            <template is="dom-if" if="{{isError}}">
+                <p>
+                    Error: <span>{{errorMessage}}</span>
+                </p>
+            </template>
+            <span flex></span>
+            <paper-fab
+                id="arrow"
+                icon="arrow-forward"
+                title="Package List"
+                on-click="buttonSubmit"></paper-fab>
+        </div>
+        
+    </template>
+    
+    <script>
+    (function() {
+        Polymer({
+            is: 'sage-package',
+            properties: {
+                name: {
+                    type: String,
+                    notify: true,
+                },
+                ajaxUrl: {
+                    type: String,
+                    computed: '_ajaxUrl(name)',
+                },
+                pkg: {
+                    type: Object,
+                    notify: true,
+                },
+                isSuccess: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                isError: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                errorMessage: {
+                    type: String,
+                    notify: false
+                },
+            },
+            buttonSubmit: function(event) {
+                page.redirect('/pkg');
+            },
+            _ajaxUrl: function(name) {
+                console.log('name', name);
+                ajax = this.$.viewPkgAjax.auto = true;
+                return '/api/v1/pkg/view/' + name;
+            },
+            ajaxResponseHandler: function(event, response) {
+                console.log('response', response)
+                var reply = response.xhr.response;
+                if (!reply.success)
+                    throw new Error('success must be true in response handler');
+                this.isSuccess = reply.success;
+                this.isError = !reply.success;
+                if (reply.success) {
+                    this.pkg = reply.package
+                }
+            },
+            ajaxErrorHandler: function(event, response) {
+                console.log('error', response)
+                var reply = response.request.parseResponse();
+                if (reply.success)
+                    throw new Error('success must be false in error handler');
+                this.isSuccess = reply.success;
+                this.isError = !reply.success;
+            }
+        });
+    })();
+    </script>
+    
+</dom-module>
