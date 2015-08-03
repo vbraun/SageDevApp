@@ -6,5 +6,8 @@ nodeenv
 peewee
 
 pyjwt
-aiohttp
 werkzeug
+
+# aiohttp
+-e git+https://github.com/kxepal/aiohttp.git@issue/454#egg=aiohttp
+
