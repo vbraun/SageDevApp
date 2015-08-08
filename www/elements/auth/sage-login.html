@@ -1,24 +1,24 @@
 <dom-module id="sage-login">
     <style>
-        :host {
-            display: block;
-        }
+    :host {
+        display: block;
+    }
 
-        div {
-            padding-top: 2em;
-        }
+    div {
+        padding-top: 2em;
+    }
     </style>
     <template>
         <iron-ajax
-             id="loginAjax"
-             contentType="application/json"
-             method="POST"
-             verbose="true"
-             url="/api/v1/auth/login"
-             body="{{ajaxParams}}"
-             handle-as="json"
-             on-response="ajaxResponseHandler"
-             on-error="ajaxErrorHandler">
+            id="loginAjax"
+            contentType="application/json"
+            method="POST"
+            verbose="true"
+            url="/api/v1/auth/login"
+            body="{{ajaxParams}}"
+            handle-as="json"
+            on-response="ajaxResponseHandler"
+            on-error="ajaxErrorHandler">
         </iron-ajax>
 
         <paper-input-container>
@@ -39,73 +39,73 @@
             </template>
             <span flex></span>
             <paper-fab
-                 id="arrow"
-                 icon="arrow-forward"
-                 title="submit"
-                 on-click="buttonSubmit"></paper-fab>
+                id="arrow"
+                icon="arrow-forward"
+                title="submit"
+                on-click="buttonSubmit"></paper-fab>
         </div>
-   </template>
+    </template>
     
     <script>
-        (function() {
-            Polymer({
-                is: 'sage-login',
-                properties: {
-                    email: {
-                        type: String,
-                        notify: true
-                    },
-                    password: {
-                        type: String,
-                        notify: true
-                    },
-                    ajaxParams: {
-                        type: String,
-                        computed: 'makeAjaxBody(email, password)'
-                    },
-                    isSuccess: {
-                        type: Boolean,
-                        value: false,
-                        notify: true
-                    },
-                    isError: {
-                        type: Boolean,
-                        value: false,
-                        notify: true
-                    },
-                    errorMessage: {
-                        type: String,
-                        notify: false
-                    },
+    (function() {
+        Polymer({
+            is: 'sage-login',
+            properties: {
+                email: {
+                    type: String,
+                    notify: true
                 },
-                buttonSubmit: function(event) {
-                    console.log('submit', this.email, this.password);
-                    this.$.loginAjax.generateRequest();
+                password: {
+                    type: String,
+                    notify: true
                 },
-                makeAjaxBody: function(email, password) {
-                    return JSON.stringify({'email': email, 'password':password});
+                ajaxParams: {
+                    type: String,
+                    computed: 'makeAjaxBody(email, password)'
                 },
-                ajaxResponseHandler: function(event, response) {
-                    var reply = response.xhr.response;
-                    if (!reply.success)
-                        throw new Error('success must be true in response handler');
-                    this.isSuccess = reply.success;
-                    this.isError = !reply.success;
-                    console.log('storing JWT');
-                    window.localStorage.setItem('jwt', reply.jwt);
-                    page.redirect('/upload');
-                    this.fire('iron-signal', {name:'sage-auth-changed', data:true});
+                isSuccess: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
                 },
-                ajaxErrorHandler: function(event, response) {
-                    var reply = response.request.parseResponse();
-                    if (reply.success)
-                        throw new Error('success must be true in response handler');
-                    this.isSuccess = reply.success;
-                    this.isError = !reply.success;
-                    this.errorMessage = reply.reason;
-                }
-            });
-        })();
-  </script>
+                isError: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+                errorMessage: {
+                    type: String,
+                    notify: false
+                },
+            },
+            buttonSubmit: function(event) {
+                console.log('submit', this.email, this.password);
+                this.$.loginAjax.generateRequest();
+            },
+            makeAjaxBody: function(email, password) {
+                return JSON.stringify({'email': email, 'password':password});
+            },
+            ajaxResponseHandler: function(event, response) {
+                var reply = response.xhr.response;
+                if (!reply.success)
+                    throw new Error('success must be true in response handler');
+                this.isSuccess = reply.success;
+                this.isError = !reply.success;
+                console.log('storing JWT');
+                window.localStorage.setItem('jwt', reply.jwt);
+                page.redirect('/upload');
+                this.fire('iron-signal', {name:'sage-auth-changed', data:true});
+            },
+            ajaxErrorHandler: function(event, response) {
+                var reply = response.request.parseResponse();
+                if (reply.success)
+                    throw new Error('success must be true in response handler');
+                this.isSuccess = reply.success;
+                this.isError = !reply.success;
+                this.errorMessage = reply.reason;
+            }
+        });
+    })();
+    </script>
     
 </dom-module>

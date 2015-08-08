@@ -1,3 +1,4 @@
+import os
 import logging
 log = logging.getLogger()
 
@@ -18,6 +19,10 @@ email_validation_handler = EmailValidationHandler()
 def hello(request):
     log.debug(request)
     return web.Response(body=b"Hello, world")
+
+DIST_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(__file__)), 'dist')
+log.debug('DIST_DIR = {0}'.format(DIST_DIR))
 
 
 application = web.Application()
@@ -45,3 +50,7 @@ if config.debug:
     from app.debug.user import UserDebug
     user_debug = UserDebug().get
     application.router.add_route('GET', '/api/v1/debug/user/{email}', user_debug)
+
+
+application.router.add_static('/', DIST_DIR)
+    
