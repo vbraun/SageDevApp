@@ -12,6 +12,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.headerregistry import Address
+from email.utils import formataddr, make_msgid, formatdate
 
 from app.config import config
 
@@ -67,6 +68,7 @@ def send_validation_email(user):
     text = text_template.format(user=user, config=config)
     
     if config.debug:
+        log.debug(text)
         log.debug('Skipping sending of authentication email to {0}'.format(recipient))
         return
     
@@ -75,6 +77,8 @@ def send_validation_email(user):
     msg['Subject'] = "E-Mail Verification"
     msg['From'] = sender
     msg['To'] = recipient
+    msg['Date'] = formatdate()
+    msg['Message-ID'] = make_msgid()
 
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')

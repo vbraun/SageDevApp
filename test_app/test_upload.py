@@ -6,6 +6,7 @@ import asyncio
 import unittest
 import jwt
 import aiohttp
+from aiohttp.multipart import MultipartWriter
 
 from app.identifier import Identifier
 from app.auth.token import jwt_decode
@@ -31,7 +32,9 @@ class TestPackageUpload(unittest.TestCase):
     def test_upload_package(self):
         def go():
             data = 'The quick brown fox jumps over the lazy bird'
-            resp = yield from self.session.post('http://localhost:8080/api/v1/pkg/upload', data=data)
+            with MultipartWriter('form-data') as writer:
+                writer.append(data)
+                resp = yield from self.session.post('http://localhost:8080/api/v1/pkg/upload', data=writer)
             self.assertEqual(resp.status, 200)
             data = yield from resp.read()
             print(data)

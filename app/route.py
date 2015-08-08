@@ -33,6 +33,8 @@ application.router.add_route('GET', '/api/v1/pkg/view/{name}', view_package_hand
 
 from app.pkg.file_upload import FileUploadHandler
 application.router.add_route('POST', '/api/v1/pkg/upload', FileUploadHandler().post)
+from app.pkg.file_download import FileDownloadHandler
+application.router.add_route('GET', '/api/v1/pkg/download/{sha1}', FileDownloadHandler().get)
 
 
 from app.cron.handler import cron_handler

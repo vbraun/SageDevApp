@@ -8,9 +8,9 @@ from aiohttp import web
 
 from app.config import config
 from app.auth.token import jwt_encode
+from app.auth.known_email_model import KnownEmail
 from app.auth.user_model import User, EmailExistsException
 from app.auth.validation_email import send_validation_email
-
 
 
 
@@ -25,6 +25,9 @@ class RegistrationHandler(object):
         email = data['email']
         password = data['password']
 
+        if not KnownEmail.select().where(KnownEmail.email == email).exists():
+            return self.error_forbidden('Email address must appear in the git commit log')
+        
         try:
             user = User.create_from_registration(name, email, password)
         except EmailExistsException as exc:

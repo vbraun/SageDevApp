@@ -20,4 +20,5 @@ class BaseModel(peewee.Model):
 def all_database_models():
     from app.auth.user_model import User
     from app.pkg.package_model import Package
-    return [User, Package]
+    from app.auth.known_email_model import KnownEmail
+    return [User, Package, KnownEmail]
