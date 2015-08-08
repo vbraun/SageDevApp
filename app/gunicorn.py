@@ -17,7 +17,7 @@ from app.config import config
 from app.database import database, all_database_models
 
 database.connect()
-database.create_tables(all_database_models())
+database.create_tables(all_database_models(), True)
 
 
 from app.route import application as main

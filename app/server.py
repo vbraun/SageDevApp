@@ -17,7 +17,7 @@ def main_loop():
     f = loop.create_server(handler, 'localhost', 8080)
     srv = loop.run_until_complete(f)
     database.connect()
-    database.create_tables(all_database_models())
+    database.create_tables(all_database_models(), True)
     print('serving on', srv.sockets[0].getsockname())
     if config.debug:
         loop.set_debug(enabled=True)
