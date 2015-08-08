@@ -8,7 +8,7 @@
 
 set -e
 
-virtualenv --python=python3.4 local
+pyvenv local
 source ./local/bin/activate
 
 ./local/bin/pip install --upgrade pip
