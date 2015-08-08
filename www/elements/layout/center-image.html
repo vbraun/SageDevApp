@@ -1,0 +1,47 @@
+<dom-module id="center-image">
+
+    <style>
+    div.outer {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    div.inner {
+        display: inline-block;
+        position: relative;
+        right: -50%;
+    }
+
+    img {
+        position: relative;
+        left: -50%;
+    }
+    </style>
+
+    <template>
+        <div class="outer">
+            <div class="inner">
+                <img alt="{{alt}}" src="{{src}}"/>
+            </div>
+        </div>
+    </template>
+    
+    <script>
+    (function() {
+        Polymer({
+            is: 'center-image',
+            properties: {
+                alt: {
+                    type: String,
+                    notify: true,
+                },
+                src: {
+                    type: String,
+                    notify: true,
+                },
+           },
+        });
+    })();
+    </script>
+    
+</dom-module>

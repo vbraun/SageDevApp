@@ -209,7 +209,7 @@ gulp.task('serve', ['styles', 'elements', 'images', 'backend'], function () {
             }
         },
         server: {
-            baseDir: ['tmp', 'www'],
+            baseDir: ['tmp', 'www', 'dist'],
             middleware: [
                 modRewrite([
                     '^/api/(.*)$ http://localhost:8080/api/$1 [P]',
