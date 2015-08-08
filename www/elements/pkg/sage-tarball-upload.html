@@ -60,7 +60,7 @@
                 },
             },
             _servingUrl: function(sha1) {
-                return '/api/v1/pkg/download/' + sha1
+                return '/api/v1/pkg/download/' + sha1;
             },
             onSuccess: function(event, params) {
                 reply = params.xhr;
@@ -72,7 +72,7 @@
             onError: function(event, params) {
                 reply = params.xhr;
                 console.log('error', reply);
-                reply = params.xhr
+                reply = params.xhr;
                 this.isSuccess = false;
                 this.isError = true;
                 this.errorMessage = reply.responseText;

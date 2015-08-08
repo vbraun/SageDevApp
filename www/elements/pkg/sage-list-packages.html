@@ -51,30 +51,20 @@
                     notify: false
                 },
             },
-            attached: function() {
-                var that = this;
-                window.addEventListener('WebComponentsReady', function() {
-                    return;
-                    var ajax = that.$.listPkgAjax;
-                    ajax.generateRequest();
-                });
-            },
             uriFor: function(package_name) {
-                return '/pkg/' + package_name
+                return '/pkg/' + package_name;
             },
             ajaxResponseHandler: function(event, response) {
-                console.log('response', response)
                 var reply = response.xhr.response;
                 if (!reply.success)
                     throw new Error('success must be true in response handler');
                 this.isSuccess = reply.success;
                 this.isError = !reply.success;
                 if (reply.success) {
-                    this.packages = reply.packages
+                    this.packages = reply.packages;
                 }
             },
             ajaxErrorHandler: function(event, response) {
-                console.log('error', response)
                 var reply = response.request.parseResponse();
                 if (reply.success)
                     throw new Error('success must be false in error handler');
