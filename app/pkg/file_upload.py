@@ -11,6 +11,7 @@ from aiohttp import web
 import tempfile
 
 from app.config import config
+from app.auth.require_login import require_login
 
 
 class FileUploadHandler(object):
@@ -52,6 +53,7 @@ class FileUploadHandler(object):
                 
     @asyncio.coroutine
     def post(self, request):
+        require_login(request)
         filename = yield from self.save_to_tmpfile(request)
         sha1 = yield from self.sha1(filename)
         self.move(filename, sha1)

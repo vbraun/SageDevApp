@@ -1,39 +1,46 @@
 <dom-module id="sage-auth-status">
     <template>
         <iron-signals on-iron-signal-sage-auth-changed="signalUpdate">
-        <!-- <div>Logged in: <span>{{isLoggedIn}}</span></div> -->
-        <!-- <div>Logged out: <span>{{isLoggedOut}}</span></div> -->
-   </template>
+            <!-- <div>Logged in: <span>{{isLoggedIn}}</span></div> -->
+            <!-- <div>Logged out: <span>{{isLoggedOut}}</span></div> -->
+    </template>
     
     <script>
-        (function() {
-            Polymer({
-                is: 'sage-auth-status',
-                properties: {
-                    isLoggedIn: {
-                        type: Boolean,
-                        notify: true
-                    },
-                    isLoggedOut: {
-                        type: Boolean,
-                        notify: true
-                    },
+    (function() {
+        Polymer({
+            is: 'sage-auth-status',
+            properties: {
+                isLoggedIn: {
+                    type: Boolean,
+                    notify: true
                 },
-                ready: function() {
-                    var jwt = window.localStorage.getItem('jwt');
-                    this.isLoggedIn = (jwt !== null);
-                    this.isLoggedOut = (jwt === null);
+                isLoggedOut: {
+                    type: Boolean,
+                    notify: true
                 },
-                signalUpdate: function(event, loginStatus) {
-                    if (!loginStatus) {
-                        console.log('deleting JWT');
-                        window.localStorage.removeItem('jwt');
-                    }
-                    this.isLoggedIn = loginStatus;
-                    this.isLoggedOut = !loginStatus;
+                jwt: {
+                    type: String,
+                    notify: true
+                },
+            },
+            ready: function() {
+                this.jwt = window.localStorage.getItem('jwt');
+                this.isLoggedIn = (this.jwt !== null);
+                this.isLoggedOut = (this.jwt === null);
+            },
+            signalUpdate: function(event, loginStatus) {
+                if (!loginStatus) {
+                    console.log('deleting JWT');
+                    window.localStorage.removeItem('jwt');
+                    this.jwt = null;
+                } else {
+                    this.jwt = window.localStorage.getItem('jwt');
                 }
-            });
-        })();
-  </script>
+                this.isLoggedIn = loginStatus;
+                this.isLoggedOut = !loginStatus;
+            }
+        });
+    })();
+    </script>
     
 </dom-module>

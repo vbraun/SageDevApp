@@ -1,12 +1,13 @@
 <dom-module id="sage-tarball-upload">
     <template>
+        <sage-auth-status jwt="{{jwt}}"></sage-auth-status>
         <file-upload
             droppable="true"
+            authorization="{{authorizationHeader}}"
             multi="false"
             target="/api/v1/pkg/upload"
             method="POST"
             raised="true">Choose File</file-upload>
-
         <br/>
         
         <template is="dom-if" if="{{isSuccess}}">
@@ -25,6 +26,8 @@
             </div>
         </template>
 
+        auth<span>{{authorizationHeader}}</span><span>{{servingUrl}}</span>
+        <span>{{isSuccess}}</span>
     </template>
     
     <script>
@@ -44,6 +47,14 @@
                     type: String,
                     computed: '_servingUrl(sha1)',
                 },
+                jwt: {
+                    type: String,
+                    notify: true
+                },
+                authorizationHeader: {
+                    type: String,
+                    computed: '_authorizationHeader(jwt)',
+                },
                 isSuccess: {
                     type: Boolean,
                     value: false,
@@ -61,6 +72,9 @@
             },
             _servingUrl: function(sha1) {
                 return '/api/v1/pkg/download/' + sha1;
+            },
+            _authorizationHeader: function(jwt) {
+                return 'Bearer ' + jwt;
             },
             onSuccess: function(event, params) {
                 reply = params.xhr;
