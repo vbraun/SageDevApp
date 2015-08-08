@@ -77,13 +77,21 @@ gulp.task('images', function () {
 // Copy All Files At The Root Level (www)
 gulp.task('copy', function () {
     var www = gulp.src([
-        'www*',
+        'www/index.html',
+        'www/favicon.ico',
+        'www/manifest.json',
+        'www/precache.json',
+        'www/robots.txt',
         '!www/test',
         '!www/precache.json'
     ], {
         dot: true
     }).pipe(gulp.dest('dist'));
 
+    var images = gulp.src([
+        'images/**',
+    ]).pipe(gulp.dest('dist/images/'));
+    
     var bower = gulp.src([
         'bower_components/**/*'
     ]).pipe(gulp.dest('dist/bower_components'));
