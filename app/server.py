@@ -1,3 +1,19 @@
+"""
+This is the development server.
+
+You can run it via 
+
+    gulp   # build frontend files
+    python -m app.server
+
+Even simpler, just run 
+
+    gulp serve
+
+For real deployments you probably want to use the gunicorn
+integration, see :mod:`app.gunicorn`.
+"""
+
 import logging
 log = logging.getLogger()
 

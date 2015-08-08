@@ -26,7 +26,9 @@ class KnownEmail(BaseModel):
 
 def update_known_emails(emails):
     for email in emails:
-        KnownEmail.create(email=email)
+        query = KnownEmail.select().where(KnownEmail.email == email)
+        if not query.exists():
+            KnownEmail.create(email=email)
         #known_email = KnownEmail.select().where(KnownEmail.email == email)
         #if not known_email.exists():
     
