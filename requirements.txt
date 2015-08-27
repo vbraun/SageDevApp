@@ -8,8 +8,8 @@ peewee
 pyjwt
 werkzeug
 
-# aiohttp
--e git+https://github.com/kxepal/aiohttp.git@issue/454#egg=aiohttp
+aiohttp>=0.17.2
+# -e git+https://github.com/kxepal/aiohttp.git@issue/454#egg=aiohttp
 
 gitpython
 

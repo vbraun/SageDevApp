@@ -75,12 +75,18 @@ class ConfigurationFactory(object):
     def load_app_yaml(self):
         APP_YAML = os.path.join(
             os.path.dirname(__file__), '..', 'app.yaml')
+        if not os.path.exists(APP_YAML):
+            log.info('Configuration file not found: {0}'.format(APP_YAML))
+            return dict()
         with open(APP_YAML, 'rb') as f:
             return yaml.load(f)
             
     def load_app_default_yaml(self):
         APP_DEFAULT_YAML = os.path.join(
             os.path.dirname(__file__), '..', 'app-default.yaml')
+        if not os.path.exists(APP_DEFAULT_YAML):
+            log.info('Configuration file not found: {0}'.format(APP_DEFAULT_YAML))
+            return dict()
         with open(APP_DEFAULT_YAML, 'rb') as f:
             return yaml.load(f)
 

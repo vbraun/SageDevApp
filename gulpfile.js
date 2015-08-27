@@ -197,7 +197,7 @@ gulp.task('backend', function(){
 });
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles', 'elements', 'images', 'backend'], function () {
+gulp.task('serve', ['copy', 'styles', 'elements', 'images', 'backend'], function () {
     browserSync({
         logPrefix: 'PSK',
         snippetOptions: {

@@ -8,7 +8,7 @@
 
 
 debug:
-    False
+    True
 
 baseurl:
     http://fileserver.sagemath.org
