@@ -23,7 +23,6 @@ class FileDownloadHandler(object):
             return self.error_not_found('no file with that sha1')
         statinfo = os.stat(filename)
         response = web.StreamResponse()
-        response.enable_chunked_encoding()
         response.content_length = statinfo.st_size
         response.content_type = 'application/octet-stream'
         response.start(request)
